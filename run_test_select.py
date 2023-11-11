@@ -69,7 +69,7 @@ def main():
     args = parse_args()
     if args.domain:
         run_domain(args.domain)
-        break
+        return
     print("No specify args domain")
     all = ['omniglot', 'aircraft', 'cu_birds', 'quickdraw', 'fungi', 'vgg_flower', 'ilsvrc_2012', 'mscoco', 'traffic_sign']
     # all = ['vgg_flower']

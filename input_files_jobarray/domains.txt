@@ -1,0 +1,9 @@
+traffic_sign
+mscoco
+ilsvrc_2012
+omniglot
+aircraft
+cu_birds
+quickdraw
+fungi
+vgg_flower
