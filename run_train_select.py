@@ -1,5 +1,5 @@
 import subprocess
-
+import argparse
 # List of configurations
 configs = [
     "configs/clip/finetune_select.yaml",
@@ -14,9 +14,9 @@ settings = [
 ]
 
 load_model_paths = [
-    "/datadrive2/save/meta_dataset_select/clip/{}/{}/meta-dataset-select_clip_ViT-B32_fs-centroid_15y2s18q_300m_100M",
-    "/datadrive2/save/meta_dataset_select/dinov2/{}/{}/meta-dataset-select_dinov2_vitb14_fs-centroid_15y2s18q_300m_100M",
-    "/datadrive2/save/meta_dataset_select/mocov3/{}/{}/meta-dataset-select_mocov3_vit_fs-centroid_15y2s18q_300m_100M",
+    "./save/meta_dataset_select/clip/{}/{}/meta-dataset-select_clip_ViT-B32_fs-centroid_15y2s18q_300m_100M",
+    "./save/meta_dataset_select/dinov2/{}/{}/meta-dataset-select_dinov2_vitb14_fs-centroid_15y2s18q_300m_100M",
+    "./save/meta_dataset_select/mocov3/{}/{}/meta-dataset-select_mocov3_vit_fs-centroid_15y2s18q_300m_100M",
     ]
     
 # Base command
@@ -26,6 +26,12 @@ base_cmd = "python finetune.py"
 from_scratch = True
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="This is my training script.")
+    parser.add_argument('-d', '--domain', type=str, help='specify domain')
+    args = parser.parse_args()
+    return args
+
 def run_domain(val_domains):
     # Loop over configurations
     for idx, config in enumerate(configs):
@@ -34,7 +40,7 @@ def run_domain(val_domains):
             model_name = config.split("/")[1]
             print("finetuning model {}".format(model_name))    
             # Construct the save path
-            save_path = f"/datadrive2/save/meta_dataset_select/{model_name}/{val_domains}/{setting}" 
+            save_path = f"./save/first50/{model_name}/{val_domains}/{setting}" 
 
             ## all domains train together
             # save_path = f"/datadrive2/save/meta_dataset/{model_name}/{save_name}"    
@@ -54,8 +60,13 @@ def run_domain(val_domains):
             subprocess.run(cmd, shell=True)
 
 def main():
-    # all = ['omniglot', 'aircraft', 'cu_birds', 'quickdraw', 'fungi', 'vgg_flower']
-    all = ['vgg_flower']
+    args = parse_args()
+    if args.domain:
+        run_domain(args.domain)
+        break
+    print("No specify args domain")
+    all = ['omniglot', 'aircraft', 'cu_birds', 'quickdraw', 'fungi', 'vgg_flower', 'ilsvrc_2012', 'mscoco', 'traffic_sign']
+    # all = ['vgg_flower']
 
     for domain in all:
         run_domain(domain)

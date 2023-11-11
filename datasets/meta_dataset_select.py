@@ -19,18 +19,29 @@ from .meta_dataset.utils import Split
 from .meta_dataset.transform import get_transforms
 from .meta_dataset import dataset_spec as dataset_spec_lib
 
+#subset_tasks_number = {
+#        'traffic_sign': 200,
+#        'mscoco': 200, 
+#        'ilsvrc_2012': 600, 
+#        'omniglot': 100, 
+#        'aircraft': 100, # worth investigating
+#        'cu_birds': 300,  # worth investigating 
+#        'quickdraw': 100, 
+#        'fungi': 300, # worth investigating 
+#        'vgg_flower': 200 # worth investigating
+#}
+### violate diversity
 subset_tasks_number = {
-        'traffic_sign': 200,
-        'mscoco': 200, 
-        'ilsvrc_2012': 600, 
-        'omniglot': 100, 
-        'aircraft': 100, # worth investigating
-        'cu_birds': 300,  # worth investigating 
-        'quickdraw': 100, 
-        'fungi': 300, # worth investigating 
-        'vgg_flower': 200 # worth investigating
+        'traffic_sign': 50,
+        'mscoco': 50, 
+        'ilsvrc_2012': 50, 
+        'omniglot': 50, 
+        'aircraft': 50, # worth investigating
+        'cu_birds': 50,  # worth investigating 
+        'quickdraw': 50, 
+        'fungi': 50, # worth investigating 
+        'vgg_flower': 50 # worth investigating
 }
-
 @register('meta-dataset-select') 
 class MetaDatasetH5Select(torch.utils.data.Dataset):
     def __init__(self, root = None, split='train', size=224, transform=None,
@@ -62,7 +73,7 @@ class MetaDatasetH5Select(torch.utils.data.Dataset):
             split = Split.TEST
             datasets = domains
         
-        root_path = "/datadrive2/datasets/meta_dataset_h5"
+        root_path = "/srv/home/zxu444/datasets/meta_dataset/meta_dataset_h5"
         # dataset specifications
         all_dataset_specs = []
         for dataset_name in datasets:
@@ -113,7 +124,7 @@ class MetaDatasetH5Select(torch.utils.data.Dataset):
 
 
         #### work with embedding
-        emb_root = "/datadrive2/datasets/meta_dataset_taskEmb/100_per_domain"
+        emb_root = "/srv/home/zxu444/datasets/meta_dataset/meta_dataset_taskEmb/100_per_domain"
         ## load indices for each tasks
         with open(os.path.join(emb_root,'finetuning_tasks_indices.json'), 'r') as json_file:
             ## long list with length 350, each is a task indices
@@ -124,6 +135,7 @@ class MetaDatasetH5Select(torch.utils.data.Dataset):
         
         # self.tasks_index = sorted_index[:150]
         if setting == "selected_tasks":
+            print(f"selected_tasks, first {subset_tasks_number[target]}")
             self.tasks_index = sorted_index[:subset_tasks_number[target]]
         elif setting == "all_tasks":
             self.tasks_index = sorted_index

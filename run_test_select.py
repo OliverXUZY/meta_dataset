@@ -1,5 +1,5 @@
 import subprocess
-
+import argparse
 # List of configurations
 configs = [
     "configs/clip/test.yaml",
@@ -23,14 +23,18 @@ log_paths = [
 # Save paths with placeholders
 # test_domain = "traffic_sign"
 save_paths = [
-    "/datadrive2/save/meta_dataset_select/clip/{}/{}/meta-dataset-select_clip_ViT-B32_fs-centroid_15y2s18q_300m_100M",
-    "/datadrive2/save/meta_dataset_select/dinov2/{}/{}/meta-dataset-select_dinov2_vitb14_fs-centroid_15y2s18q_300m_100M",
-    "/datadrive2/save/meta_dataset_select/mocov3/{}/{}/meta-dataset-select_mocov3_vit_fs-centroid_15y2s18q_300m_100M",
+    "./save/first50/clip/{}/{}/meta-dataset-select_clip_ViT-B32_fs-centroid_15y2s18q_300m_100M",
+    "./save/first50/dinov2/{}/{}/meta-dataset-select_dinov2_vitb14_fs-centroid_15y2s18q_300m_100M",
+    "./save/first50/mocov3/{}/{}/meta-dataset-select_mocov3_vit_fs-centroid_15y2s18q_300m_100M",
     ]
 
 
 
-
+def parse_args():
+    parser = argparse.ArgumentParser(description="This is my training script.")
+    parser.add_argument('-d', '--domain', type=str, help='specify domain')
+    args = parser.parse_args()
+    return args
 
 # Base command
 base_cmd = "python test.py"
@@ -62,8 +66,13 @@ def run_domain(test_domain):
             subprocess.run(cmd, shell=True)
 
 def main():
-    # all = ['omniglot', 'aircraft', 'cu_birds', 'quickdraw', 'fungi', 'vgg_flower']
-    all = ['vgg_flower']
+    args = parse_args()
+    if args.domain:
+        run_domain(args.domain)
+        break
+    print("No specify args domain")
+    all = ['omniglot', 'aircraft', 'cu_birds', 'quickdraw', 'fungi', 'vgg_flower', 'ilsvrc_2012', 'mscoco', 'traffic_sign']
+    # all = ['vgg_flower']
 
     for domain in all:
         run_domain(domain)

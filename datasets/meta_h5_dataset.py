@@ -49,7 +49,7 @@ class MetaDatasetH5(torch.utils.data.Dataset):
             split = Split.TEST
             datasets = domains
         
-        root_path = "/datadrive2/datasets/meta_dataset_h5"
+        root_path = "/srv/home/zxu444/datasets/meta_dataset/meta_dataset_h5"
         # dataset specifications
         all_dataset_specs = []
         for dataset_name in datasets:
