@@ -1,0 +1,30 @@
+dataset: meta-dataset
+test_set_args:
+  split: meta-test
+  size: 224                 
+  transform: make_classification_eval_transform #the reason is 'flip' has resize() alone, does not work, since some image is not square, see https://pytorch.org/vision/main/generated/torchvision.transforms.Resize.html
+  n_batch: 100
+  n_episode: 2
+  n_way: 15
+  n_shot: 1
+  n_query: 9
+  domains:
+    - quickdraw
+
+
+### encoder
+encoder: mocov3_vit
+encoder_args: 
+  # arch: vit_small
+  # ckpt_path: ../pretrained_model/mocov3/vit-s-300ep.pth.tar
+  arch: vit_base
+  ckpt_path: /datadrive/pretrained_model/mocov3/vit-b-300ep.pth.tar
+
+ckpt: max-va.pth
+
+classifier: fs-centroid
+classifier_args:
+  temp: 10.
+
+V: 1
+n_epochs: 10
