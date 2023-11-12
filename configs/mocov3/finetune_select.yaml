@@ -38,7 +38,7 @@ encoder_args:
   # arch: vit_small
   # ckpt_path: ../pretrained_model/mocov3/vit-s-300ep.pth.tar
   arch: vit_base
-  ckpt_path: /datadrive/pretrained_model/mocov3/vit-b-300ep.pth.tar
+  ckpt_path: /srv/home/zxu444/pretrained_model/mocov3/vit-b-300ep.pth.tar
 
 
 # path: /datadrive2/save/meta_dataset/mocov3/mscoco/qoi/meta-dataset_mocov3_vit_fs-centroid_15y2s18q_300m_100M

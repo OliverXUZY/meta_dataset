@@ -18,7 +18,7 @@ encoder_args:
   # arch: vit_small
   # ckpt_path: ../pretrained_model/mocov3/vit-s-300ep.pth.tar
   arch: vit_base
-  ckpt_path: /datadrive/pretrained_model/mocov3/vit-b-300ep.pth.tar
+  ckpt_path: /srv/home/zxu444/pretrained_model/mocov3/vit-b-300ep.pth.tar
 
 ckpt: max-va.pth
 
